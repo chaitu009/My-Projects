@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <img src="https://image.flaticon.com/icons/svg/2746/2746533.svg" style="width:50px;height:50px;">
+
+    <title>MY COVID TRACKING APP</title>
+
+
+  </head>
+
+  <body>
+  <h1 class="h2">COVID TRACKING APP</h1>
+
+    <table>
+        <thead>
+        <th>
+            Date
+        </th>
+        <th>
+            State
+        </th>
+        <th>
+            Confirmed
+        </th>
+        </thead>
+        <tbody>
+        {% for i in data %}
+            {% for j in i["statewise"] %}
+                <tr>
+            <td>
+                {{i["day"]}}
+            </td>
+            <td>
+                {{j["state"]}}
+            </td>
+            <td>
+                {{j["confirmed"]}}
+            </td>
+                </tr>
+            {% endfor %}
+
+
+
+        {% endfor %}
+    <tbody>
+    </table>
+  </body>
+</html>
+<style>
+    tr:nth-child(even) {background-color: #f2f2f2;}
+    td:{text-align: center;}
+
+}
+</style>

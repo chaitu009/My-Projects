@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+      <a href="http://localhost:5000/">
+    <img src="https://image.flaticon.com/icons/svg/2746/2746533.svg" style="width:50px;height:50px;">
+      </a>
+
+    <title>MY COVID TRACKING APP</title>
+
+
+  </head>
+
+  <body>
+
+  <h1 class="h2">COVID TRACKING APP</h1>
+  <p> Showing the curve of {{ statename }}</p>
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script type="text/javascript">
+      google.charts.load('current', {'packages':['corechart']});
+      google.charts.setOnLoadCallback(drawChart);
+
+      function drawChart() {
+        var data = google.visualization.arrayToDataTable([['Day','Confirmed Cases'],
+        {% for i in data %}
+            {% for j in i["statewise"] %}
+            {% if j["state"] == statename %}
+
+            ["{{i["day"]}}",{{j["confirmed"]}}],
+            {% endif %}
+            {% endfor %}
+
+        {% endfor %}
+        ]);
+
+        var options = {
+          title: 'Cases Reported on Daily Basis in {{statename}}',
+          curveType: 'function',
+          legend: { position: 'bottom' }
+        };
+
+        var chart = new google.visualization.LineChart(document.getElementById('curve_chart'));
+
+        chart.draw(data, options);
+      }
+    </script>
+
+<div id="curve_chart" style="width: 900px; height: 500px"></div>
+    <table>
+        <th>
+            Date
+        </th>
+
+        <th>
+            Confirmed
+        </th>
+        </thead>
+        <tbody>
+        {% for i in data %}
+            {% for j in i["statewise"] %}
+            {% if j["state"] == statename %}
+                <tr>
+            <td>
+                {{i["day"]}}
+            </td>
+
+            <td>
+                {{j["confirmed"]}}
+            </td>
+                </tr>
+            {% endif %}
+            {% endfor %}
+
+
+
+        {% endfor %}
+    </tbody>
+    </table>
+  </body>
+</html>
+<style>
+    tr:nth-child(even) {background-color: #f2f2f2;}
+    td:{text-align: center;}
+
+}
+</style>
